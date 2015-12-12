@@ -23,7 +23,6 @@ rects.attr({
     width: xScale.rangeBand(),
     y:function(d) {return h-yScale(d)}
 })
-rects.classed("rect",true)
 
 text = svg.selectAll("text").data(dataset)
 text.enter().append("text").text(String)
@@ -89,7 +88,6 @@ d3.select("#remover")
         width: xScale.rangeBand(),
         y:function(d) {return h-yScale(d)}
     })
-    rects.classed("rect",true)
     text = svg.selectAll("text").data(dataset)
     text.exit().remove()
     text.data(dataset).attr({
@@ -107,7 +105,3 @@ d3.select("#remover")
 
 })
 
-
-d3.selectAll("rect").on("click",function(d){
-     console.log(d)
-})

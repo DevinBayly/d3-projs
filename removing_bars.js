@@ -23,19 +23,11 @@ rects.attr({
     width: xScale.rangeBand(),
     y:function(d) {return h-yScale(d)}
 })
-rects.classed("rect",true)
 
-text = svg.selectAll("text").data(dataset)
-text.enter().append("text").text(String)
-text.attr({
-    x:function (d,i) {return xScale(i)},
-    y:function (d) {return h-yScale(d)},
-    fill:"smokewhite"
-})
 
 d3.select("#adder")
 .on("click",function(){
-    dataset.push(50)
+    dataset.push(150)
     rects = svg.selectAll("rect").data(dataset)
     yScale.domain([0,d3.max(dataset)])
     yScale.range([0,h])
@@ -51,7 +43,7 @@ d3.select("#adder")
 
     })
 
-    rects.enter()
+   rects.enter()
         .append("rect")
         .attr({
         height:function(d) {return yScale(d);},
@@ -59,20 +51,6 @@ d3.select("#adder")
         width: xScale.rangeBand(),
         y:function(d) {return h-yScale(d)}
 })
-    text = svg.selectAll("text").data(dataset)
-    text.enter().append("text").text(String)
-    text.data(dataset).attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-    text.attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-
-
 })
 d3.select("#remover")
 .on("click",function(d) {
@@ -88,26 +66,7 @@ d3.select("#remover")
         x:function(d,i) {return xScale(i);},
         width: xScale.rangeBand(),
         y:function(d) {return h-yScale(d)}
-    })
-    rects.classed("rect",true)
-    text = svg.selectAll("text").data(dataset)
-    text.exit().remove()
-    text.data(dataset).attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-    text.attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-
-
+})
 
 })
 
-
-d3.selectAll("rect").on("click",function(d){
-     console.log(d)
-})
