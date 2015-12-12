@@ -1,6 +1,8 @@
+// for some reason this doesn't generate the tooltips in a visible way how I'd like//
 var dataset = []
 var h = 400
 var w = 1000
+var sortYes = false
 for (i =0;i<20;i++){
     dataset.push(Math.floor(Math.random()*100))
 }
@@ -23,91 +25,25 @@ rects.attr({
     width: xScale.rangeBand(),
     y:function(d) {return h-yScale(d)}
 })
+
 rects.classed("rect",true)
 
-text = svg.selectAll("text").data(dataset)
-text.enter().append("text").text(String)
-text.attr({
-    x:function (d,i) {return xScale(i)},
-    y:function (d) {return h-yScale(d)},
-    fill:"smokewhite"
+svg.selectAll("rect").on("mouseover",function (d){
+    var xPos = parseFloat(d3.select(this).attr("x") + xScale.rangeBand()/2)
+    var yPos = parseFloat(d3.select(this).attr("y")) + 15
+    svg.append("text")
+    .attr("id", "tooltip")
+    .attr("x", xPos)
+    .attr("y", yPos)
+    .attr("text-anchor", "middle")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "11px")
+    .attr("font-weight", "bold")
+    .attr("fill", "black")
+    .text(d)
+    console.log("generating tooltip")
 })
-
-d3.select("#adder")
-.on("click",function(){
-    dataset.push(50)
-    rects = svg.selectAll("rect").data(dataset)
-    yScale.domain([0,d3.max(dataset)])
-    yScale.range([0,h])
-    xScale.domain(d3.range(dataset.length))
-    xScale.rangeRoundBands([0,w],.05)
-    rects.transition()
-        .duration(500)
-        .attr({
-        height:function(d) {return yScale(d);},
-        x:function(d,i) {return xScale(i);},
-        width: xScale.rangeBand(),
-        y:function(d) {return h-yScale(d)}
-
-    })
-
-    rects.enter()
-        .append("rect")
-        .attr({
-        height:function(d) {return yScale(d);},
-        x:function(d,i) {return xScale(i);},
-        width: xScale.rangeBand(),
-        y:function(d) {return h-yScale(d)}
-})
-    text = svg.selectAll("text").data(dataset)
-    text.enter().append("text").text(String)
-    text.data(dataset).attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-    text.attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-
-
-})
-d3.select("#remover")
-.on("click",function(d) {
-    dataset.shift()
-    rects = svg.selectAll("rect").data(dataset)
-    yScale.domain([0,d3.max(dataset)])
-    yScale.range([0,h])
-    xScale.domain(d3.range(dataset.length))
-    xScale.rangeRoundBands([0,w],.05)
-    rects.exit().remove()
-    rects.attr({
-        height:function(d) {return yScale(d);},
-        x:function(d,i) {return xScale(i);},
-        width: xScale.rangeBand(),
-        y:function(d) {return h-yScale(d)}
-    })
-    rects.classed("rect",true)
-    text = svg.selectAll("text").data(dataset)
-    text.exit().remove()
-    text.data(dataset).attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-    text.attr({
-        x:function (d,i) {return xScale(i)},
-        y:function (d) {return h-yScale(d)},
-        fill:"blue"
-    })
-
-
-
-})
-
-
-d3.selectAll("rect").on("click",function(d){
-     console.log(d)
+svg.selectAll("rect").on("mouseout",function(){
+     d3.select("#tooltip").remove()
+     console.log("removing tooltip")
 })
