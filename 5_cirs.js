@@ -10,5 +10,9 @@ circles.append("circle").attr({
     cy:100,
     cx:function(d,i) {return i*100 + 50}
 })
-circles.style({stroke: "gray", fill:"aliceblue", })
+
+/* this section is devoted to making a tooltip function, the confusing
+ * part comes from the use of the .call method. This specifies the behavior
+ * of each element when used as a function. ( i think... ) */
+
 
