@@ -36,3 +36,11 @@ p {
   stroke: #fff;
   fill-opacity: .125;
   shape-rendering: crispEdges;
+}
+#tooltip{
+    text-anchor:middle;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: bold;
+    fill: black;
+  }

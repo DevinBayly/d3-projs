@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Brush</title>
+    <script type="text/javascript" src="Brush_files/d3.js"></script>
+    <style type="text/css">
+
+svg {
+  font: 10px sans-serif;
+}
+
+path {
+  -webkit-transition: fill-opacity 250ms linear;
+}
+
+.selecting path {
+  fill-opacity: .2;
+}
+
+.selecting path.selected {
+  stroke: #f00;
+  stroke-width: 2px;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+    </style>
+  </head>
+  <body style="">
+    <script type="text/javascript">
+
+var data = d3.svg.symbolTypes;
+
+var margin = {top: 10, right: 10, bottom: 20, left:10},
+    width = 960 - margin.right - margin.left,
+    height = 100 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .domain(data)
+    .rangePoints([0, width], 1);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.right + margin.left)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.svg.axis().scale(x).orient("bottom"));
+
+var symbol = svg.append("g").selectAll("path")
+    .data(data)
+  .enter().append("path")
+    .attr("transform", function(d) { return "translate(" + x(d) + "," + (height / 2) + ")"; })
+    .attr("d", d3.svg.symbol().type(String).size(200));
+
+svg.append("g")
+    .attr("class", "brush")
+    .call(d3.svg.brush().x(x)
+    .on("brushstart", brushstart)
+    .on("brush", brushmove)
+    .on("brushend", brushend))
+  .selectAll("rect")
+    .attr("height", height);
+
+function brushstart() {
+  svg.classed("selecting", true);
+}
+
+function brushmove() {
+  var s = d3.event.target.extent();
+  symbol.classed("selected", function(d) { return s[0] <= (d = x(d)) && d <= s[1]; });
+}
+
+function brushend() {
+  svg.classed("selecting", !d3.event.target.empty());
+}
+
+    </script><svg height="100" width="960"><g class="selecting" transform="translate(10,10)"><g transform="translate(0,70)" class="x axis"><g transform="translate(78.33333333333333,0)" style="opacity: 1;"><line x2="0" y2="6" class="tick"></line><text text-anchor="middle" dy=".71em" x="0" y="9">circle</text></g><g transform="translate(235,0)" style="opacity: 1;"><line x2="0" y2="6" class="tick"></line><text text-anchor="middle" dy=".71em" x="0" y="9">cross</text></g><g transform="translate(391.66666666666663,0)" style="opacity: 1;"><line x2="0" y2="6" class="tick"></line><text text-anchor="middle" dy=".71em" x="0" y="9">diamond</text></g><g transform="translate(548.3333333333334,0)" style="opacity: 1;"><line x2="0" y2="6" class="tick"></line><text text-anchor="middle" dy=".71em" x="0" y="9">square</text></g><g transform="translate(705,0)" style="opacity: 1;"><line x2="0" y2="6" class="tick"></line><text text-anchor="middle" dy=".71em" x="0" y="9">triangle-down</text></g><g transform="translate(861.6666666666666,0)" style="opacity: 1;"><line x2="0" y2="6" class="tick"></line><text text-anchor="middle" dy=".71em" x="0" y="9">triangle-up</text></g><path d="M0,6V0H940V6" class="domain"></path></g><g><path d="M0,7.978845608028654A7.978845608028654,7.978845608028654 0 1,1 0,-7.978845608028654A7.978845608028654,7.978845608028654 0 1,1 0,7.978845608028654Z" transform="translate(78.33333333333333,35)"></path><path class="" d="M-9.486832980505138,-3.1622776601683795H-3.1622776601683795V-9.486832980505138H3.1622776601683795V-3.1622776601683795H9.486832980505138V3.1622776601683795H3.1622776601683795V9.486832980505138H-3.1622776601683795V3.1622776601683795H-9.486832980505138Z" transform="translate(235,35)"></path><path class="selected" d="M0,-13.160740129524925L7.598356856515925,0 0,13.160740129524925 -7.598356856515925,0Z" transform="translate(391.66666666666663,35)"></path><path class="" d="M-7.0710678118654755,-7.0710678118654755L7.0710678118654755,-7.0710678118654755 7.0710678118654755,7.0710678118654755 -7.0710678118654755,7.0710678118654755Z" transform="translate(548.3333333333334,35)"></path><path d="M0,9.306048591020996L10.74569931823542,-9.306048591020996 -10.74569931823542,-9.306048591020996Z" transform="translate(705,35)"></path><path d="M0,-9.306048591020996L10.74569931823542,9.306048591020996 -10.74569931823542,9.306048591020996Z" transform="translate(861.6666666666666,35)"></path></g><g style="pointer-events: all;" class="brush"><rect height="70" width="940" x="0" style="visibility: hidden; cursor: crosshair;" class="background"></rect><rect height="70" width="175" x="347" style="cursor: move;" class="extent"></rect><g transform="translate(522,0)" style="cursor: ew-resize;" class="resize e"><rect style="visibility: hidden;" height="70" width="6" x="-3"></rect></g><g transform="translate(347,0)" style="cursor: ew-resize;" class="resize w"><rect style="visibility: hidden;" height="70" width="6" x="-3"></rect></g></g></g></svg>
+  
+
+</body></html>
