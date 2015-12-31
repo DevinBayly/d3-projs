@@ -39,8 +39,8 @@ canvas.append("g")
     .call(yAxis)
 canvas.append("g")
     .attr("class","brush")
-    .call(brush)
-.selectAll("rect").attr("height",h)
+    .call(brush
+.selectAll("rect").attr("height",h))
 
 cirs.attr({
     r:function(d){return d.value/10},

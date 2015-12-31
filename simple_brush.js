@@ -13,17 +13,20 @@ var brush = d3.svg.brush()
     .x(x2)
     .on("brush", brushed);
 
-    svg.attr({
+ svg.attr({
         height: h,
         width: w,
-    })
+    });
 
 svg.append("g")
   .attr("class", "x brush")
-  .call(brush)  //call the brush function, causing it to create the rectangles
+  .call(brush()//call the brush function, causing it to create the rectangles
+  .x(x)
+  .on("brushed",brushed))
 .selectAll("rect") //select all the just-created rectangles
   .attr("y", -6)
   .attr("h", h2 + 7); //set their h
+
 
 function brushed() {
   x.domain(brush.empty() ? x2.domain() : brush.extent());
