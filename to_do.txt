@@ -1,0 +1,8 @@
+word_comp
+    addition ideas
+        make highligting bar and axis hover for mouse
+        create a brushing effect that adjusts the view
+        make button that will remove bar based on click to get more refined graph
+        center the heading p element
+    issues that I'm stuck on
+        trouble with the bottom row of bars not being exactly the same 
