@@ -1,8 +1,12 @@
 word_comp
     addition ideas
-        make highligting bar and axis hover for mouse
+        o make highligting bar and axis hover for mouse
+            x highlighting bar all taken care of
+            o stuck on the part whereby the text in the axis region lights up gold too.
         create a brushing effect that adjusts the view
         make button that will remove bar based on click to get more refined graph
         center the heading p element
+        make a pretty bar that will display the number of the hovered rectangle
     issues that I'm stuck on
-        trouble with the bottom row of bars not being exactly the same 
+        x trouble with the bottom row of bars not being exactly the same 
+           x totally done, problem was with the rounding tilda's that I used in front
