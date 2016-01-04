@@ -1,0 +1,9 @@
+rect {
+    fill-opacity: .3;
+}
+text {
+    font-size: 8px;
+}
+p {
+    text-anchor:"middle";
+}
