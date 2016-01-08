@@ -59,20 +59,25 @@ function create_bars (incoming){
                 return "rotate(-65)"
                 });
 
-    d3.selectAll("rect").on("mouseover", function (){
+    d3.selectAll("rect").on("mouseover", function (d,i){
       d3.select(this)
       .attr("fill","gold")
-      console.log(d3.select(this).attr("x"))
-      d3.selectAll("text").map( function (d,i) {
-          console.log("d var",d)
-          console.log(" i var",i)
+      var rect_pos = d3.select(this).attr("x")
+      d3.selectAll("text").each( function (d,i) {
+          if ( xScale (i) == rect_pos ){
+              d3.select(this).style("fill","gold").classed("colored",true)
+          }
       })
-          })
+
+
+    })
     .on("mouseout", function (){
         if ( d3.select(this).classed("ang") )
             d3.select(this).attr("fill","blue");
         else
             d3.select(this).attr("fill","red")
+        d3.select(".colored").style("fill","black").classed("colored",false)
+
     })
 }
 
