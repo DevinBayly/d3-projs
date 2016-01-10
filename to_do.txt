@@ -8,7 +8,9 @@ word_comp
         create a brushing effect that adjusts the view
         make button that will remove bar based on click to get more refined graph
         center the heading p element
-        make a pretty bar that will display the number of the hovered rectangle
+        xx make a pretty bar that will display the number of the hovered rectangle
+            x I went ahead and created a nice div element that has the person, word and count in a box that shows just to the right of the bar in question
+        change the bar order such that the one that is taller is always in the background so that I can access all bars with mouse
 
     issues that I'm stuck on
         x trouble with the bottom row of bars not being exactly the same 

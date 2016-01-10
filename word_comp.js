@@ -68,7 +68,25 @@ function create_bars (incoming){
               d3.select(this).style("fill","gold").classed("colored",true)
           }
       })
+      var xPos = (parseFloat(d3.select(this).attr('x'))) + ( xScale.rangeBand() / 2 ) + 15
 
+      var yPos = ~~( (parseFloat(d3.select(this).attr('y')))/2) + h/2
+
+      var val = (d3.select(this).classed("ang")) ? d.people.angela : d.people.devin
+
+      var person = (d3.select(this).classed("ang")) ? "Angela" : "Devin"
+
+      d3.select("#person")
+        .text(person)
+
+      d3.select("#tooltip")
+        .style("left", xPos + "px")
+        .style("top", yPos + "px")
+        .select("#word")
+        .text(d.word)
+
+      d3.select("#value")
+        .text(val+" ")
 
     })
     .on("mouseout", function (){
