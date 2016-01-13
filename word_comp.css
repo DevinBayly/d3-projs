@@ -10,7 +10,12 @@ p {
     text-anchor:"middle";
 
 }
+h1 {
+    text-align: center;
+}
+svg {
 
+}
 #tooltip { position: absolute;
  width:  75px;
  height: auto;
@@ -24,3 +29,14 @@ p {
  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
  pointer-events: none;
  }
+ .hidden {
+      display: none;
+ }
+
+
+.brush .extent {
+stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+

@@ -18,6 +18,10 @@ function create_bars (incoming){
     })))
     .range([margin.bottom,(h-margin.top)])
 
+    bottomScale = d3.scale.ordinal()
+    bottomScale.domain(d3.range(incoming.length).map( function (d) { return incoming[d].word  } ))
+    bottomScale.rangePoints([margin.left,(w-margin.right)])
+
     xAxis = d3.svg.axis().scale(xScale)
         .orient("bottom")
         .tickFormat(function (d){
@@ -76,6 +80,7 @@ function create_bars (incoming){
 
       var person = (d3.select(this).classed("ang")) ? "Angela" : "Devin"
 
+      d3.select("#tooltip").classed("hidden",false)
       d3.select("#person")
         .text(person)
 
@@ -96,6 +101,49 @@ function create_bars (incoming){
             d3.select(this).attr("fill","red")
         d3.select(".colored").style("fill","black").classed("colored",false)
 
+        d3.select("#tooltip").classed("hidden",true)
+
+
     })
-}
+
+    bottomAxis = d3.svg.axis().scale(bottomScale)
+    loH = 100 // this material could be called contexts just because it helps to frame the context for the material above?
+    d3.select("body").append("div")
+      .append("svg")
+        .attr({
+         height: loH,
+         width: w,
+    })
+      .append("g")   //remember below that the em stands for a relative unit specifying values relative to the parent value
+        .classed("low axis",true)
+        .attr("transform","translate (0,0)")
+        .call(bottomAxis)
+
+      .selectAll("text")
+        .style("text-anchor","end")
+        .attr("transform","rotate(-65)")
+        .attr("dx","-.8em")
+        .attr("dy",".15em")
+
+    brushed = function () {
+        var ex= d3.event.target.extent()
+        var selected = bottomScale.domain().filter( function (d){
+            return ex[0] <= bottomScale(d) && bottomScale(d) <= ex[1]
+
+        } )
+        console.log(selected)
+    }
+
+
+
+    brush = d3.svg.brush().x(bottomScale).on("brush",brushed)
+
+    d3.select("div > svg").append("g")
+        .attr("class","brush")
+        .call(brush)
+      .selectAll("rect")
+        .attr("height",loH)
+
+
+   }
 
