@@ -1,13 +1,14 @@
 var h = 400,
     w = 1250,
-    margin = {left:20,right:20,top:10,bottom:40};
+    margin = {left:20,right:20,top:10,bottom:10};
 d3.json("word_comparison.json", function (data) create_bars(data))
 
 function create_bars (incoming){
     my_data = incoming
     xScale = d3.scale.ordinal()
-        .domain(d3.range(incoming.length))
-        .rangeRoundBands([margin.left,w-margin.right])
+    .domain(d3.range(incoming.length).map( function (d) { return incoming[d].word } ))
+    xScale.rangePoints([margin.left,(w-margin.right)])
+
     yScale = d3.scale.linear()
     .domain(d3.extent(incoming.map(function(item ) {
         if (item.people.devin > item.people.angela) {
@@ -16,7 +17,7 @@ function create_bars (incoming){
             return item.people.angela
         }
     })))
-    .range([margin.bottom,(h-margin.top)])
+    .range([1,(h-margin.top)])
 
     bottomScale = d3.scale.ordinal()
     bottomScale.domain(d3.range(incoming.length).map( function (d) { return incoming[d].word  } ))
@@ -37,8 +38,8 @@ function create_bars (incoming){
     .attr({
         "class":"dev",
         width : xScale.rangeBand(),
-        x: function (d, i) {return xScale(i)},
-        y: function(d) {return ( h -margin.bottom - yScale( d.people.devin ) )},
+        x: function (d) {return xScale(d.word)},
+        y: function(d) {return ( h  - yScale( d.people.devin ) )},
         height: function (d) {return ( yScale( d.people.devin ) )},
         fill:"red"
     })
@@ -47,31 +48,14 @@ function create_bars (incoming){
         "class":"ang",
         width : xScale.rangeBand(),
         x: function (d, i) {return xScale(i)},
-        y: function(d) {return ( h -margin.bottom - yScale( d.people.angela ) )},
+        y: function(d) {return ( h - yScale( d.people.angela ) )},
         height: function (d) {return ( yScale( d.people.angela ) )},
         fill:"blue"
     })
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + ( h - margin.bottom )+ ")")
-        .call(xAxis)
-        .selectAll("text")
-            .style("text-anchor", "end")
-            .attr("dx", "-.8em")
-            .attr("dy", ".15em")
-            .attr("transform", function(d) {
-                return "rotate(-65)"
-                });
 
     d3.selectAll("rect").on("mouseover", function (d,i){
       d3.select(this)
       .attr("fill","gold")
-      var rect_pos = d3.select(this).attr("x")
-      d3.selectAll("text").each( function (d,i) {
-          if ( xScale (i) == rect_pos ){
-              d3.select(this).style("fill","gold").classed("colored",true)
-          }
-      })
       var xPos = (parseFloat(d3.select(this).attr('x'))) + ( xScale.rangeBand() / 2 ) + 15
 
       var yPos = ~~( (parseFloat(d3.select(this).attr('y')))/2) + h/2
@@ -99,7 +83,7 @@ function create_bars (incoming){
             d3.select(this).attr("fill","blue");
         else
             d3.select(this).attr("fill","red")
-        d3.select(".colored").style("fill","black").classed("colored",false)
+
 
         d3.select("#tooltip").classed("hidden",true)
 
@@ -116,7 +100,7 @@ function create_bars (incoming){
     })
       .append("g")   //remember below that the em stands for a relative unit specifying values relative to the parent value
         .classed("low axis",true)
-        .attr("transform","translate (0,0)")
+        .attr("transform","translate (0,"+( loH/3 )+")")
         .call(bottomAxis)
 
       .selectAll("text")
@@ -126,12 +110,9 @@ function create_bars (incoming){
         .attr("dy",".15em")
 
     brushed = function () {
-        var ex= d3.event.target.extent()
-        var selected = bottomScale.domain().filter( function (d){
-            return ex[0] <= bottomScale(d) && bottomScale(d) <= ex[1]
-
-        } )
-        console.log(selected)
+        xScale.domain(brush.empty() ? d3.range(incoming.length) : brush.extent())
+        dev_rects.attr("x",function (d,i) {console.log(i)})
+        dev_rects.attr("width", xScale.rangeBand())
     }
 
 
