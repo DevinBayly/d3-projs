@@ -3,7 +3,10 @@ var h = 400,
     margin = {left:20,right:20,top:10,bottom:10};
 d3.json("word_comparison.json", function (data) create_bars(data))
 
+d3.
+
 function create_bars (incoming){
+    incoming.
     my_data = incoming
     xScale = d3.scale.ordinal()
     .domain(d3.range(incoming.length).map( function (d) { return incoming[d].word } ))
